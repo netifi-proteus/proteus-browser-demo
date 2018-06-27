@@ -1,0 +1,10 @@
+{
+  "name": "proteus-browser-demo",
+  "version": "0.0.1",
+  "description": "A demo application of Proteus using RSocket from a Browser",
+  "main": "index.js",
+  "repository": "git@github.com:netifi-proteus/proteus-browser-demo.git",
+  "author": "Kyle Bahr <kyle@netifi.com>",
+  "license": "MIT",
+  "private": false
+}
