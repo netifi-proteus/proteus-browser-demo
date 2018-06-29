@@ -1,8 +1,6 @@
 # proteus-demo
 Demo application for Proteus and RSocket
 
-http://rsocket-demo.herokuapp.com
-
 
 ## Running the Demo
 
