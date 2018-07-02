@@ -1,13 +1,17 @@
 # proteus-demo
 Demo application for Proteus and RSocket
 
+## Preparing the Demo
+
+- Ensure you have Yarn, Node, and NPM installed:
+    - https://nodejs.org/en/download/
+    - https://www.npmjs.com/get-npm
+    - https://yarnpkg.com/lang/en/docs/install/
 
 ## Running the Demo
 
-To edit the homepage (including the JavaScript example code), do the following:
-
-- Fork/clone the repo and `cd` to the root directory.
-- Install the JavaScript dependencies with;
+- Fork/clone the repo and `cd` to the root directory from a terminal window
+- Install the JavaScript dependencies with
 
     yarn
 
@@ -40,4 +44,31 @@ To edit the homepage (including the JavaScript example code), do the following:
 - Each message should refer to an identifier like the one in "My ID for this session...", e.g. India-Four-Two-One
 - With only one browser instance, all CLIENT and SERVICE messages will have your identifier in them. Unless someone else happens to be connected to the same Broker
 - You can experience the magic by opening multiple tabs or multiple browsers (e.g. Chrome and Safari) and going to http://localhost:3000
-    - You should notice that each instance now will sometimes to refer to other IDs. This is other application instances servicing your messages and vice versa 
+    - You should notice that each instance now will sometimes to refer to other IDs. This is other application instances servicing your messages and vice versa
+    
+## Modifying the Demo
+
+To edit the homepage (including the JavaScript example code), do the following:
+
+- In a text editor of your choice, open and modify `src/main/js/index.js` and/or `src/main/resources/index.html`
+
+- Regenerate the website code in `src/main/resources/web/public/`  with:
+
+    yarn run build
+
+- Launch the new version of the website, which delivers your modified app with:
+
+    yarn start
+    
+- Hit http://localhost:3000 in a webbrowser
+
+### Notes
+
+- To add a new service/client, follow the model of the PingPong service
+    - The _service_ must implement ReactiveSocket methods
+        - `fireAndForget`, `requestResponse`, `requestStream`, `requestChannel`, `pushMetadata`
+        - Thing to note here, `requestChannel` and `pushMetadata` are not implemented by the RSocketJS library, so these don't work at the moment
+    - The _client_ should use the Proteus Gateway to create a "group" routed connection, as the PingPong client does
+    - Register the new service with the Proteus Gateway with a unique name as the PingPong service does
+    `proteus.addService('my.new.service.id', myNewServiceImplementation);`
+  
