@@ -8,8 +8,8 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "proteus-js-client": "0.0.2",
-    "proteus-js-core": "0.0.2",
+    "proteus-js-client": "0.0.5",
+    "proteus-js-core": "0.0.5",
     "proteus-js-frames": "^0.0.1",
     "rsocket-types": "^0.0.7"
   },

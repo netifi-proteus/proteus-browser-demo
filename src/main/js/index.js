@@ -5,7 +5,7 @@ const {
 
 const {
     Empty
-} = require('proteus-js-core');
+} = require('google-protobuf/google/protobuf/empty_pb');
 
 const {
     encodeProteusMetadata
