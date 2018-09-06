@@ -1,5 +1,5 @@
 # proteus-demo
-Demo application for Proteus and RSocket
+Demo application for [Netifi Proteus](https://www.netifi.com) and [RSocket](http://rsocket.io).
 
 ## Preparing the Demo
 
