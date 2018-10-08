@@ -1,1 +1,4 @@
-cd .. && yarn start
+cd ..
+yarn
+yarn run build
+yarn start
