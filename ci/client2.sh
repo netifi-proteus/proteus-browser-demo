@@ -1,1 +1,1 @@
-exit 0
+sleep 60 && exit 0
