@@ -1,1 +1,3 @@
-sleep 60 && exit 0
+cd test
+yarn
+yarn test

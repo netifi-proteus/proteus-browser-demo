@@ -5789,7 +5789,7 @@ function createPingPongService(desintationId) {
 };
 
 function main() {
-    const url = "ws://localhost:8101/";
+    const url = "wss://localhost:8101/";
 
     const sessionId = generateName();
     addMessage(sessionId, 'destination');
