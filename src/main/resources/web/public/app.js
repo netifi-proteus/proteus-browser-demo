@@ -5634,10 +5634,14 @@ function createPingPongClient(proteusGateway) {
     const rs = proteusGateway.group(proteusGateway.myGroup());
 
     return {
+        // Sends a single 'Ping' message in a Request/Response interaction model
         ping: function pingOnce() {
             const dataBuf = Buffer.from(proteusGateway.myDestination());
             const metadataBuf = encodeProteusMetadata('io.netifi.proteus.demo.PingPongService', 'Ping', Buffer.alloc(0));
             console.log('Pinging...');
+
+            // This invokes the corresponding `requestResponse` method on the service, implemented below and returns a
+            // "Single" of the response
             return rs.requestResponse({
                 data: dataBuf,
                 metadata: metadataBuf
@@ -5650,18 +5654,26 @@ function createPingPongClient(proteusGateway) {
             });
         },
 
+        // Sends a single 'Ping' message in a Fire and Forget interaction model
         pingFnF: function pingFnF() {
             const dataBuf = Buffer.from(proteusGateway.myDestination());
             const metadataBuf = encodeProteusMetadata('io.netifi.proteus.demo.PingPongService', 'Ping', Buffer.alloc(0));
+
+            // This invokes the corresponding `fireAndForget` method on the service, implemented below and returns nothing
+            // as this interaction model assumes the client is done as soon as the message is sent
             return rs.fireAndForget({
                 data: dataBuf,
                 metadata: metadataBuf
             });
         },
 
+        // Sends a single 'Ping' message and expects a stream of 'Pong' responses
         pingStream: function pingStream() {
             const dataBuf = Buffer.from(proteusGateway.myDestination());
             const metadataBuf = encodeProteusMetadata('io.netifi.proteus.demo.PingPongService', 'Ping', Buffer.alloc(0));
+
+            // This invokes the corresponding `requestStream` method on the service, implemented below and returns a
+            // stream that represents the 0 or more 'Pong' responses from the server
             return rs.requestStream({
                 data: dataBuf,
                 metadata: metadataBuf
@@ -5715,12 +5727,11 @@ function createPingPongService(desintationId) {
          */
         requestStream: function requestStream(payload) {
             //: Payload<D, M>): Flowable<Payload<D, M>>,
-            //return Flowable.error(new Error('requestStream() is not implemented'));
             console.log('Someone called requestStream');
             addMessage('SERVICE: ' + payload.data.toString('utf8') + ' has requested a PONG stream', 'requestStreamService');
             return new Flowable(subscriber => {
 
-                /*** This block really just sets up limits on how much to stream back- random number of "values" up to 50 ***/
+                /*** This block really just sets up limits on how much to stream back - random number of "values" up to 8 ***/
                 let counter = 0;
                 let threshold = getRandomInt(8);
                 let active = true;
@@ -5778,7 +5789,7 @@ function createPingPongService(desintationId) {
 };
 
 function main() {
-    const url = "ws://edge.prd.netifi.io:8101/";
+    const url = "ws://localhost:8101/";
 
     const sessionId = generateName();
     addMessage(sessionId, 'destination');
