@@ -7,7 +7,6 @@ describe('quickstart smoke test', () => {
 
     it('expected ui', async () => {
         const browser = await puppeteer.launch({
-            ignoreHTTPSErrors: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
         const page = await browser.newPage();
