@@ -10,7 +10,8 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin({
             '__DEV__': true,
-            '__WS_URL__': JSON.stringify(process.env.WS_URL || 'ws://edge.prd.netifi.io:8101/')
+            //'__WS_URL__': JSON.stringify(process.env.WS_URL || 'ws://edge.prd.netifi.io:8101/')
+            '__WS_URL__': JSON.stringify(process.env.WS_URL || 'ws://localhost:8101/')
         })
     ],
     module: {

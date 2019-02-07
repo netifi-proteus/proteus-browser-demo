@@ -8,13 +8,8 @@ const {
 } = require('google-protobuf/google/protobuf/empty_pb');
 
 const {
-    encodeProteusMetadata
-} = require('proteus-js-frames');
-
-const {
-    ReactiveSocket,
-    Encodable
-} = require('rsocket-types');
+    encodeMetadata
+} = require('rsocket-rpc-frames');
 
 const {
     Flowable,
@@ -71,10 +66,11 @@ function createPingPongClient(proteusGateway) {
     return {
         // Sends a single 'Ping' message in a Request/Response interaction model
         ping: function pingOnce() {
-            const dataBuf = Buffer.from(proteusGateway.myDestination());
-            const metadataBuf = encodeProteusMetadata(
+            const dataBuf = Buffer.from(proteusGateway.myTags()['name']);
+            const metadataBuf = encodeMetadata(
                 'io.netifi.proteus.demo.PingPongService',
                 'Ping',
+                Buffer.alloc(0),
                 Buffer.alloc(0),
             );
             console.log('Pinging...');
@@ -97,10 +93,11 @@ function createPingPongClient(proteusGateway) {
 
         // Sends a single 'Ping' message in a Fire and Forget interaction model
         pingFnF: function pingFnF() {
-            const dataBuf = Buffer.from(proteusGateway.myDestination());
-            const metadataBuf = encodeProteusMetadata(
+            const dataBuf = Buffer.from(proteusGateway.myTags()['name']);
+            const metadataBuf = encodeMetadata(
                 'io.netifi.proteus.demo.PingPongService',
                 'Ping',
+                Buffer.alloc(0),
                 Buffer.alloc(0),
             );
 
@@ -115,10 +112,11 @@ function createPingPongClient(proteusGateway) {
 
         // Sends a single 'Ping' message and expects a stream of 'Pong' responses
         pingStream: function pingStream(){
-            const dataBuf = Buffer.from(proteusGateway.myDestination());
-            const metadataBuf = encodeProteusMetadata(
+            const dataBuf = Buffer.from(proteusGateway.myTags()['name']);
+            const metadataBuf = encodeMetadata(
                 'io.netifi.proteus.demo.PingPongService',
                 'Ping',
+                Buffer.alloc(0),
                 Buffer.alloc(0),
             );
 
@@ -246,6 +244,7 @@ function main() {
         setup: {
             group: 'browser-demo',
             destination: sessionId,
+            tags: {name: sessionId},
             accessKey: 9007199254740991,
             accessToken: 'kTBDVtfRBO4tHOnZzSyY5ym2kfY=',
         },
@@ -275,7 +274,7 @@ function main() {
 
     // Here we register a "PingPong" service through our gateway. This application is telling the broker that it is
     // available to service messages bound for the "io.netifi.proteus.demo.PingPongService"
-    proteus.addService('io.netifi.proteus.demo.PingPongService', createPingPongService(proteus.myDestination()));
+    proteus.addService('io.netifi.proteus.demo.PingPongService', createPingPongService(proteus.myTags()['name']));
 
     // Here we create a client of the ping pong service so that we may send messages to the PingPong service -
     // the service name 'io.netifi.proteus.demo.PingPongService' is included in the routing metadata in our
